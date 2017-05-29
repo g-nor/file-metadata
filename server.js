@@ -6,7 +6,11 @@ let app = express();
 let upload = multer();
 
 app.post("/get-file-size", upload.single('filename'), (req, res) => {
-    res.json({size: req.file.size});
+    if(req.file) {
+        res.json({size: req.file.size});
+    } else {
+        res.json({error: {code: 400, message: "Bad request"}});
+    }
 })
 
 app.get("/*", (req, res) => {
